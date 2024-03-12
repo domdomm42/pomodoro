@@ -2,7 +2,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(3600);
   const [start, setStart] = useState(false);
 
   const changeStartState = () => {
@@ -26,6 +26,16 @@ function App() {
     return () => clearInterval(intervalId);
   }, [start, timer]);
 
+  // Do calculation to get the hours, minutes and seconds from total seconds
+  const hours = Math.floor(timer / 3600);
+  const minutes = Math.floor((timer % 3600) / 60);
+  const seconds = timer % 60;
+
+  // Format the time to be displayed, this rerenders every second cause timer changes every second
+  const formatedTime = `${hours.toString().padStart(2, '0')}:${minutes
+    .toString()
+    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
   // Should play some sounds
   if (timer === 0) {
     return <h1>Time&apos;s up!</h1>;
@@ -33,7 +43,7 @@ function App() {
 
   return (
     <>
-      {timer}
+      {formatedTime}
       <button onClick={changeStartState}>
         {start === true ? 'Pause' : 'Start'}
       </button>
