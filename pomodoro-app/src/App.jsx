@@ -59,26 +59,31 @@ function App() {
 
   return (
     <div className='App'>
-      <h1>{isWorking ? 'Work Time' : 'Break Time'}</h1>
-      <div>Timer: {formatedTime}</div>
-      <button onClick={toggleStart}>{start ? 'Pause' : 'Start'}</button>
-      <button onClick={resetTimer}>Reset</button>
-      <button onClick={openSettingsPopup}>Settings</button>
-      {openSettings && (
-        <Popup
-          workTime={{
-            hours: Math.floor(workDuration / 3600),
-            minutes: Math.floor((workDuration % 3600) / 60),
-            seconds: workDuration % 60,
-          }}
-          breakTime={{
-            hours: Math.floor(breakDuration / 3600),
-            minutes: Math.floor((breakDuration % 3600) / 60),
-            seconds: breakDuration % 60,
-          }}
-          onSubmit={handleTimeSubmit}
-        />
-      )}
+      <div className='main-app-header'>
+        <h1>{isWorking ? 'Work Time' : 'Break Time'}</h1>
+        <h2>Timer: {formatedTime}</h2>
+
+        <div className='timerButtons'>
+          <button onClick={toggleStart}>{start ? 'Pause' : 'Start'}</button>
+          <button onClick={resetTimer}>Reset</button>
+          <button onClick={openSettingsPopup}>Settings</button>
+        </div>
+        {openSettings && (
+          <Popup
+            workTime={{
+              hours: Math.floor(workDuration / 3600),
+              minutes: Math.floor((workDuration % 3600) / 60),
+              seconds: workDuration % 60,
+            }}
+            breakTime={{
+              hours: Math.floor(breakDuration / 3600),
+              minutes: Math.floor((breakDuration % 3600) / 60),
+              seconds: breakDuration % 60,
+            }}
+            onSubmit={handleTimeSubmit}
+          />
+        )}
+      </div>
     </div>
   );
 }
