@@ -1,11 +1,11 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-// import Settings from './components/Settings.jsx';
 import Popup from './components/Popup.jsx';
+import schoolbell from '../public/schoolbell.mp3';
 
 // TODO:
 // 1) Let user pick a time ✅
-// 2) Add sound after ring
+// 2) Add sound after ring ✅
 // 3) Add a reset button
 // 4) Add a progress bar
 // 5) Add a break timer
@@ -13,10 +13,15 @@ import Popup from './components/Popup.jsx';
 // 7) Add background image/animation or a way for user to add their own
 
 function App() {
-  // Starting state is 25 minutes
   const [timer, setTimer] = useState(1500);
   const [start, setStart] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
+  const [initialTime, setInitialTime] = useState(1500);
+
+  const playSound = () => {
+    const sound = new Audio(schoolbell);
+    sound.play();
+  };
 
   const changeStartState = () => {
     if (start === true) {
@@ -30,6 +35,7 @@ function App() {
   const handleTimeSubmit = (totalSeconds, isSettingsSaved) => {
     if (isSettingsSaved === true) {
       setTimer(totalSeconds);
+      setInitialTime(totalSeconds);
       setOpenSettings(false); // Close the popup after setting the time
     } else {
       setOpenSettings(false);
@@ -61,11 +67,14 @@ function App() {
 
   // Should play some sounds
   if (timer === 0) {
-    return <h1>Time&apos;s up!</h1>;
+    playSound();
+    setStart(false);
+    setTimer(initialTime);
   }
 
   return (
     <>
+      {timer === 0 ? <div>Time&apos;s up!</div> : null}
       {formatedTime}
       <button onClick={changeStartState}>
         {start === true ? 'Pause' : 'Start'}
