@@ -1,15 +1,38 @@
 import './App.css';
 import { useEffect, useState } from 'react';
+// import Settings from './components/Settings.jsx';
+import Popup from './components/Popup.jsx';
+
+// TODO:
+// 1) Let user pick a time ✅
+// 2) Add sound after ring
+// 3) Add a reset button
+// 4) Add a progress bar
+// 5) Add a break timer
+// 6) Add total time spent on the timer
+// 7) Add background image/animation or a way for user to add their own
 
 function App() {
-  const [timer, setTimer] = useState(3600);
+  // Starting state is 25 minutes
+  const [timer, setTimer] = useState(1500);
   const [start, setStart] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
 
   const changeStartState = () => {
     if (start === true) {
       setStart(false);
     } else {
       setStart(true);
+    }
+  };
+
+  // Settings function, need this here to change the timer state
+  const handleTimeSubmit = (totalSeconds, isSettingsSaved) => {
+    if (isSettingsSaved === true) {
+      setTimer(totalSeconds);
+      setOpenSettings(false); // Close the popup after setting the time
+    } else {
+      setOpenSettings(false);
     }
   };
 
@@ -47,6 +70,8 @@ function App() {
       <button onClick={changeStartState}>
         {start === true ? 'Pause' : 'Start'}
       </button>
+      {openSettings && <Popup onSubmit={handleTimeSubmit} />}
+      <button onClick={() => setOpenSettings(true)}>Settings</button>
     </>
   );
 }
