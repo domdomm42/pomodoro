@@ -22,7 +22,12 @@ const Popup = ({ onSubmit, workTime, breakTime }) => {
       parseInt(breakHours * 3600) +
       parseInt(breakMinutes) * 60 +
       parseInt(breakSeconds);
-    onSubmit(totalWorkSeconds, totalBreakSeconds, true);
+
+    if (totalWorkSeconds !== 0 && totalBreakSeconds !== 0) {
+      onSubmit(totalWorkSeconds, totalBreakSeconds, true);
+    } else {
+      alert('Please enter a valid work time or break time');
+    }
   };
 
   const handleClose = () => {

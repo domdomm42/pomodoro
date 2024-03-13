@@ -41,7 +41,9 @@ function App() {
   };
 
   const toggleStart = () => setStart(!start);
-  const openSettingsPopup = () => setOpenSettings(true);
+  const openSettingsPopup = () => {
+    openSettings === true ? setOpenSettings(false) : setOpenSettings(true);
+  };
   const resetTimer = () => {
     setTimer(isWorking ? workDuration : breakDuration);
     setStart(false);
