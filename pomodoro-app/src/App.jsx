@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import Popup from './components/Popup';
-import schoolbell from '../public/schoolbell.mp3';
+import schoolbell from './schoolbell.mp3';
+import { NextUIProvider } from '@nextui-org/react';
+import { Progress } from '@nextui-org/react';
 
 function App() {
-  // Initial timer in seconds (25 minutes)
   const [timer, setTimer] = useState(1500);
   const [isWorking, setIsWorking] = useState(true); // State to track if it's work time or break time
   const [start, setStart] = useState(false);
-  const [openSettings, setOpenSettings] = useState(false);
   const [workDuration, setWorkDuration] = useState(1500);
   const [breakDuration, setBreakDuration] = useState(300);
+
+  // tracks the number of percentage in which the work or break is being done out of 100
+  const timerPercentageDone =
+    100 - (timer / (isWorking ? workDuration : breakDuration)) * 100;
 
   useEffect(() => {
     let interval = null;
@@ -36,14 +40,11 @@ function App() {
       setBreakDuration(breakSeconds);
       setTimer(isWorking ? workSeconds : breakSeconds); // Reset the timer based on current state
     }
-    setOpenSettings(false);
     setStart(false);
   };
 
   const toggleStart = () => setStart(!start);
-  const openSettingsPopup = () => {
-    openSettings === true ? setOpenSettings(false) : setOpenSettings(true);
-  };
+
   const resetTimer = () => {
     setTimer(isWorking ? workDuration : breakDuration);
     setStart(false);
@@ -58,17 +59,33 @@ function App() {
     .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
   return (
-    <div className='App'>
-      <div className='main-app-header'>
-        <h1>{isWorking ? 'Work Time' : 'Break Time'}</h1>
-        <h2>Timer: {formatedTime}</h2>
+    <NextUIProvider>
+      <div className='App'>
+        <div className='main-app-header'>
+          <h1 className='font-bold m-4'>
+            {isWorking ? 'Work Time' : 'Break Time'}
+          </h1>
+          <h2>Timer: {formatedTime}</h2>
+          <div className='timerButtons'>
+            <button onClick={toggleStart}>{start ? 'Pause' : 'Start'}</button>
+            <button onClick={resetTimer}>Reset</button>
+          </div>
+          <Progress
+            size='md'
+            radius='full'
+            classNames={{
+              base: 'max-w-md',
+              track: 'drop-shadow-md border border-default',
+              indicator: isWorking
+                ? 'bg-gradient-to-r from-blue-500 to-purple-500'
+                : 'bg-gradient-to-r from-green-500 to-teal-500',
+              label: 'tracking-wider font-medium text-default-600',
+              value: 'text-foreground/60',
+            }}
+            value={timerPercentageDone}
+            showValueLabel={true}
+          />
 
-        <div className='timerButtons'>
-          <button onClick={toggleStart}>{start ? 'Pause' : 'Start'}</button>
-          <button onClick={resetTimer}>Reset</button>
-          <button onClick={openSettingsPopup}>Settings</button>
-        </div>
-        {openSettings && (
           <Popup
             workTime={{
               hours: Math.floor(workDuration / 3600),
@@ -82,9 +99,9 @@ function App() {
             }}
             onSubmit={handleTimeSubmit}
           />
-        )}
+        </div>
       </div>
-    </div>
+    </NextUIProvider>
   );
 }
 
