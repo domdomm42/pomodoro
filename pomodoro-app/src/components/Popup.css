@@ -1,0 +1,9 @@
+label,
+input {
+  display: flex;
+  justify-content: space-between;
+}
+
+.settingsMenu {
+  display: flex;
+}
