@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import './App.css';
-import Popup from './components/Popup';
-import schoolbell from './schoolbell.mp3';
-import { NextUIProvider } from '@nextui-org/react';
-import { Progress } from '@nextui-org/react';
+import { useState, useEffect } from "react";
+import "./App.css";
+import Popup from "./components/Popup";
+import schoolbell from "./schoolbell.mp3";
+import { Progress, NextUIProvider } from "@nextui-org/react";
 
 function App() {
   const [timer, setTimer] = useState(1500);
@@ -54,36 +53,39 @@ function App() {
   const minutes = Math.floor((timer % 3600) / 60);
   const seconds = timer % 60;
 
-  const formatedTime = `${hours.toString().padStart(2, '0')}:${minutes
+  const formatedTime = `${hours.toString().padStart(2, "0")}:${minutes
     .toString()
-    .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
   return (
     <NextUIProvider>
-      <div className='App'>
-        <div className='main-app-header'>
-          <h1 className='font-bold m-4'>
-            {isWorking ? 'Work Time' : 'Break Time'}
+      <div className="App">
+        <div className="main-app-header">
+          <h1 className="font-bold m-4">
+            {isWorking ? "Work Time" : "Break Time"}
           </h1>
           <h2>Timer: {formatedTime}</h2>
-          <div className='timerButtons'>
-            <button onClick={toggleStart}>{start ? 'Pause' : 'Start'}</button>
+          <div className="timerButtons">
+            <button onClick={toggleStart} className="mr-2">
+              {start ? "Pause" : "Start"}
+            </button>
             <button onClick={resetTimer}>Reset</button>
           </div>
           <Progress
-            size='md'
-            radius='full'
+            size="md"
+            radius="full"
             classNames={{
-              base: 'max-w-md',
-              track: 'drop-shadow-md border border-default',
+              base: "max-w-md",
+              track: "drop-shadow-md border border-default",
               indicator: isWorking
-                ? 'bg-gradient-to-r from-blue-500 to-purple-500'
-                : 'bg-gradient-to-r from-green-500 to-teal-500',
-              label: 'tracking-wider font-medium text-default-600',
-              value: 'text-foreground/60',
+                ? "bg-gradient-to-r from-blue-500 to-purple-500"
+                : "bg-gradient-to-r from-green-500 to-teal-500",
+              label: "tracking-wider font-medium text-default-600",
+              value: "text-foreground/60",
             }}
             value={timerPercentageDone}
             showValueLabel={true}
+            className="mb-4"
           />
 
           <Popup
