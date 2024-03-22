@@ -55,9 +55,9 @@ const Popup = ({ onSubmit, workTime, breakTime }) => {
               </ModalHeader>
               <ModalBody>
                 <div className="settingsMenu">
-                  <div className="workTimeSettings flex flex-col">
-                    <h2>Set your working time</h2>
-                    <label>
+                  <div className="workTimeSettings flex flex-col border-solid border-r-2">
+                    <h2 className="mb-2">Set your working time</h2>
+                    <label className="mb-2">
                       Set number of Hours:
                       <input
                         name="workHoursInput"
@@ -78,7 +78,7 @@ const Popup = ({ onSubmit, workTime, breakTime }) => {
                         placeholder={workHours}
                       />
                     </label>
-                    <label>
+                    <label className="mb-2">
                       Set number of Minutes:
                       <input
                         name="workMinutesInput"
@@ -122,9 +122,9 @@ const Popup = ({ onSubmit, workTime, breakTime }) => {
                       />
                     </label>
                   </div>
-                  <div className="breakTimeSettings flex flex-col">
-                    <h2>Set your break time</h2>
-                    <label>
+                  <div className="breakTimeSettings flex flex-col ml-6">
+                    <h2 className="mb-2">Set your break time</h2>
+                    <label className="mb-2">
                       Set number of Hours:
                       <input
                         name="breakHoursInput"
@@ -146,7 +146,7 @@ const Popup = ({ onSubmit, workTime, breakTime }) => {
                       />
                     </label>
 
-                    <label>
+                    <label className="mb-2">
                       Set number of Minutes:
                       <input
                         name="breakMinutesInput"
